@@ -1,5 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>@import "https://www.nerdfonts.com/assets/css/webfont.css";
 
 /*
@@ -3554,6 +3555,16 @@ return je}()
 }
 .ComponentList {
 }
+.my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+@media (min-width: 1024px) {
+.lg\:my-20 {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+}
 .ComponentBox {
 }
 .text-neutral-700 {
@@ -3562,15 +3573,14 @@ return je}()
 .grid {
   display: grid;
 }
-.grid-cols-\[10fr_5fr\] {
+@media (min-width: 1024px) {
+.lg\:grid-cols-\[10fr_5fr\] {
   grid-template-columns: 10fr 5fr;
+}
 }
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
-}
-.gap-12 {
-  gap: 3rem;
 }
 @media print {
 .print\:shadow-none {
@@ -3593,6 +3603,35 @@ return je}()
   font-size: 0.875rem;
 }
 }
+.pl-0 {
+  padding-left: 0;
+}
+.pr-8 {
+  padding-right: 2rem;
+}
+@media print {
+.print\:pr-0 {
+  padding-right: 0;
+}
+}
+.border-\[\#2c806f90\] {
+  border-color: #2c806f90;
+}
+@media (min-width: 1024px) {
+.lg\:border {
+  border-width: 1px;
+}
+}
+@media print {
+.print\:border-none {
+  border-style: none;
+}
+}
+@media print {
+.print\:rounded-none {
+  border-radius: 0;
+}
+}
 .font-bold {
   font-weight: 700;
 }
@@ -3611,12 +3650,51 @@ return je}()
 .border-\[\#2c806f\] {
   border-color: #2c806f;
 }
-.mb-12 {
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+@media (min-width: 1024px) {
+.lg\:mb-12 {
   margin-bottom: 3rem;
 }
-.px-8 {
+}
+.pl-8 {
   padding-left: 2rem;
-  padding-right: 2rem;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+.border-b-4 {
+  border-bottom-width: 4px;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
+@media (min-width: 1024px) {
+.lg\:hidden {
+  display: none;
+}
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.items-center {
+  align-items: center;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.nf {
+}
+.nf-cod-github {
+}
+.opacity-80 {
+  opacity: 0.8;
+}
+.nf-md-linkedin {
 }
 .uppercase {
   text-transform: uppercase;
@@ -3638,9 +3716,6 @@ return je}()
 .pb-8 {
   padding-bottom: 2rem;
 }
-.border-b-4 {
-  border-bottom-width: 4px;
-}
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -3653,32 +3728,21 @@ return je}()
 .border-b-12 {
   border-bottom-width: 12px;
 }
-.gap-1 {
-  gap: 0.25rem;
+@media (min-width: 768px) {
+.md\:mb-0 {
+  margin-bottom: 0;
+}
 }
 .italic {
   font-style: italic;
 }
-.text-sm {
-  font-size: 0.875rem;
+.hidden {
+  display: none;
 }
-.pb-6 {
-  padding-bottom: 1.5rem;
+@media (min-width: 1024px) {
+.lg\:block {
+  display: block;
 }
-.items-center {
-  align-items: center;
-}
-.inline-flex {
-  display: inline-flex;
-}
-.nf {
-}
-.nf-cod-github {
-}
-.opacity-80 {
-  opacity: 0.8;
-}
-.nf-md-linkedin {
 }
 .font-lg {
   font-size: 1.125rem;
@@ -3708,143 +3772,6 @@ return je}()
 .transition-all {
   transition-property: all;
   transition-duration: 0.5s;
-}
-.pl-0 {
-  padding-left: 0;
-}
-.pr-8 {
-  padding-right: 2rem;
-}
-.pr-0 {
-  padding-right: 0;
-}
-.fixed {
-  position: fixed;
-}
-.top-0 {
-  top: 0;
-}
-.left-0 {
-  left: 0;
-}
-.invisible {
-  visibility: hidden;
-}
-@media print {
-.print\:pr-0 {
-  padding-right: 0;
-}
-}
-.border {
-  border-width: 1px;
-}
-.border-\[\#2c806f70\] {
-  border-color: #2c806f70;
-}
-@media print {
-.print\:border-none {
-  border-style: none;
-}
-}
-.rounded-none {
-  border-radius: 0;
-}
-@media print {
-.print\:rounded-none {
-  border-radius: 0;
-}
-}
-.border-\[\#2c806f50\] {
-  border-color: #2c806f50;
-}
-.border-\[\#2c806f90\] {
-  border-color: #2c806f90;
-}
-@media (min-width: 768px) {
-.md\:grid-cols-\[10fr_5fr\] {
-  grid-template-columns: 10fr 5fr;
-}
-}
-.pl-8 {
-  padding-left: 2rem;
-}
-.mb-24 {
-  margin-bottom: 6rem;
-}
-@media (min-width: 768px) {
-.md\:mb-0 {
-  margin-bottom: 0;
-}
-}
-.mb-6 {
-  margin-bottom: 1.5rem;
-}
-.border-b-6 {
-  border-bottom-width: 6px;
-}
-.mb-4 {
-  margin-bottom: 1rem;
-}
-.mb-8 {
-  margin-bottom: 2rem;
-}
-@media (min-width: 640px) {
-.sm\:hidden {
-  display: none;
-}
-}
-@media (min-width: 640px) {
-.sm\:md-12 {
-}
-}
-@media (min-width: 640px) {
-.sm\:mb-12 {
-  margin-bottom: 3rem;
-}
-}
-@media (min-width: 1024px) {
-.lg\:mb-12 {
-  margin-bottom: 3rem;
-}
-}
-@media (min-width: 1024px) {
-.lg\:hidden {
-  display: none;
-}
-}
-@media (min-width: 1024px) {
-.lg\:grid-cols-\[10fr_5fr\] {
-  grid-template-columns: 10fr 5fr;
-}
-}
-.hidden {
-  display: none;
-}
-@media (min-width: 1024px) {
-.lg\:block {
-  display: block;
-}
-}
-@media (min-width: 1024px) {
-.lg\:py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-}
-.my-0 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-@media (min-width: 1024px) {
-.lg\:my-20 {
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-}
-}
-@media (min-width: 1024px) {
-.lg\:border {
-  border-width: 1px;
-}
 }
 </style>
 <div class="ComponentCanvas sans print:bg-white print:my-0">
