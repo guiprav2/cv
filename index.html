@@ -3502,8 +3502,6 @@ return je}()
   border-radius: 0.25rem;
   border-width: 1px;
   border-color: #60a5fa;
-  transition-property: all;
-  transition-duration: 0.5s;
   z-index: 10;
   pointer-events: none;
 }
@@ -3534,11 +3532,11 @@ return je}()
   opacity: 0;
 }
 </style>
-<style id="windy--SelectionOverlay.mHide">.SelectionOverlay.mHide {
-  opacity: 0;
+<style id="windy--ComponentCanvas">.ComponentCanvas {
 }
 </style>
-<style id="windy--ComponentCanvas">.ComponentCanvas {
+<style id="windy--SelectionOverlay.mHide">.SelectionOverlay.mHide {
+  opacity: 0;
 }
 </style>
 <style id="windy">.embed {
@@ -3787,6 +3785,12 @@ return je}()
   display: block;
 }
 }
+.hover\:text-\[\#2c806f\]:hover {
+  color: #2c806f;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
 .font-lg {
   font-size: 1.125rem;
 }
@@ -3811,6 +3815,11 @@ return je}()
 .text-right {
   text-align: right;
 }
+@media print {
+.print\:hidden {
+  display: none;
+}
+}
 .nf-fa-print {
 }
 .ml-1 {
@@ -3823,8 +3832,8 @@ return je}()
   margin-top: 5rem;
   margin-bottom: 5rem;
 }
-.text-neutral-800 {
-  color: #262626;
+.text-\[\#133c34\] {
+  color: #133c34;
 }
 .gfont-\[Pacifico\] {
   font-family: "Pacifico";
@@ -3843,45 +3852,7 @@ return je}()
   transition-property: all;
   transition-duration: 0.5s;
 }
-@media print {
-.print\:hidden {
-  display: none;
-}
-}
-.fixed {
-  position: fixed;
-}
-.top-0 {
-  top: 0;
-}
-.left-0 {
-  left: 0;
-}
-.invisible {
-  visibility: hidden;
-}
-.text-\[2c806f\] {
-  color: 2c806f;
-}
-.text-\[\#2c806f\] {
-  color: #2c806f;
-}
-.text-\[\#2c806fa0\] {
-  color: #2c806fa0;
-}
-.text-\[\#133c34\] {
-  color: #133c34;
-}
 .Placeholder {
-}
-.hover\:text-\[\#2c806f\]:hover {
-  color: #2c806f;
-}
-.mt-1 {
-  margin-top: 0.25rem;
-}
-.justify-center {
-  justify-content: center;
 }
 </style>
 <div class="ComponentCanvas sans print:bg-white print:my-0">
@@ -3891,10 +3862,10 @@ return je}()
         <div class="font-bold text-[#66778f] font-3xl border-l-48 pl-4 border-[#2c806f] mb-6 lg:mb-12">Gui Prá</div>
         <div>
           <div class="pl-8">
-            <div class="flex flex-col gap-1 pb-6 border-b-4 border-[#2c806f] mb-8 lg:hidden">
+            <div class="flex flex-col gap-1 pb-6 border-b-4 border-[#2c806f] lg:hidden mb-8">
               <div class="text-sm text-[#66778f]">Porto Alegre - RS, 91350-090 Brazil</div>
-              <div class="text-sm text-[#66778f]">+55 51 99802-9275</div><a class="text-sm text-[#66778f]" href="mailto:gui@guiprav.com">gui@guiprav.com</a>
-              <div class="flex items-center gap-1"><a href="https://github.com/guiprav" class="inline-flex"><i class="nf nf-cod-github opacity-80"></i></a><a href="https://linkedin.com/in/guiprav" class="inline-flex"><i class="nf nf-md-linkedin opacity-80"></i></a>
+              <div><a class="text-sm text-[#66778f] hover:text-[#2c806f]" href="tel:+5551989029275">+55 51 99802-9275</a><span class="text-sm text-[#66778f]"> | </span><a class="text-sm text-[#66778f] hover:text-[#2c806f]" href="mailto:gui@guiprav.com">gui@guiprav.com</a></div>
+              <div class="flex items-center gap-1 mt-1"><a href="https://github.com/guiprav" class="inline-flex"><i class="nf nf-cod-github hover:text-[#2c806f]"></i></a><a href="https://linkedin.com/in/guiprav" class="inline-flex"><i class="nf nf-md-linkedin hover:text-[#2c806f]"></i></a>
                 <div class="text-sm text-[#66778f]">guiprav</div>
               </div>
             </div>
@@ -3941,8 +3912,7 @@ return je}()
 
       <div class="pl-8 flex flex-col">
         <div class="flex flex-col gap-1 pb-6 border-b-12 border-[#2c806f] hidden lg:block">
-          <div class="text-sm text-[#66778f]">Porto Alegre - RS, 91350-090 Brazil</div>
-          <div class="text-sm text-[#66778f]">+55 51 99802-9275</div><a class="text-sm text-[#66778f]" href="mailto:gui@guiprav.com">gui@guiprav.com</a>
+          <div class="text-sm text-[#66778f]">Porto Alegre - RS, 91350-090 Brazil</div><a class="text-sm text-[#66778f] hover:text-[#2c806f]" href="tel:+5551989029275">+55 51 99802-9275</a><span class="text-sm text-[#66778f]"> | </span><a class="text-sm text-[#66778f] hover:text-[#2c806f]" href="mailto:gui@guiprav.com">gui@guiprav.com</a>
           <div class="flex items-center gap-1 mt-1"><a href="https://github.com/guiprav" class="inline-flex"><i class="nf nf-cod-github hover:text-[#2c806f]"></i></a><a href="https://linkedin.com/in/guiprav" class="inline-flex"><i class="nf nf-md-linkedin hover:text-[#2c806f]"></i></a>
             <div class="text-sm text-[#66778f]">guiprav</div>
           </div>
