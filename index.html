@@ -1652,8 +1652,16 @@ let builders = [
   [/^cursor-([\w-]+)$/, x => ({ cursor: x })],
   [/^bg-(cover|contain)$/, x => ({ 'background-size': x })],
   [/^bg-(center)$/, x => ({ 'background-position': x })],
-  [/^transition-all$/, (x, y) => ({ 'transition-property': 'all', 'transition-duration': '0.5s' })],
+  [/^transition-all$/, () => ({ 'transition-property': 'all', 'transition-duration': '0.5s' })],
+  [/^duration-(\d+)$/, x => ({ 'transition-duration': `${x}ms` })],
+  [/^ease-(.+)$/, x => ({ 'transition-timing-function': x === 'linear' ? x : {
+    in: 'cubic-bezier(0.4, 0, 1, 1)', out: 'cubic-bezier(0, 0, 0.2, 1)',
+    'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  }[x]})],
   [/^(grayscale|invert|sepia)(-.+)?$/, (x, y) => ({ filter: `${x}(${y?.slice(1) || 1})` })],
+  [/^(-)?hue-rotate-(.+)?$/, (x, y) => ({ filter:
+    `hue-rotate(${y.startsWith('[') ? (x || '') + y.slice(1, -1) : `${x || ''}${y}deg`})` })],
+  [/^(-)?filter-\[(.+)\]$/, (x, y) => ({ filter: (x || '') + y.replace(/_/g, ' ') })],
   [/^backdrop-(blur|grayscale|invert|sepia)(-.+)?$/, (x, y) => ({
     'backdrop-filter': `${x}(${x === 'blur' ? {
       none: 0, sm: '4px', md: '12px', lg: '16px', xl: '24px', '2xl': '40px', '3xl': '64px',
@@ -1755,8 +1763,20 @@ let builders = [
   })],
   [/^max-w-(.+)$/, x => ({
     'max-width': x.startsWith('[') ? x.slice(1, -1) : {
-      0: 0, none: 'none', xs: '20rem', sm: '24rem', md: '28rem', lg: '32rem', xl: '36rem',
-      '2xl': '42rem', '3xl': '48rem', '4xl': '56rem', '5xl': '64rem', '6xl': '72rem',
+      0: 0, '0.5': '0.125rem', 1: '0.25rem', '1.5': '0.375rem', 2: '0.5rem', '2.5': '0.625rem',
+      3: '0.75rem', 4: '1rem', 5: '1.25rem', 6: '1.5rem', 7: '1.75rem', 8: '2rem',
+      9: '2.25rem', 10: '2.5rem', 11: '2.75rem', 12: '3rem', 14: '3.5rem', 16: '4rem',
+      20: '5rem', 24: '6rem', 28: '7rem', 32: '8rem', 36: '9rem', 40: '10rem',
+      44: '11rem', 48: '12rem', 52: '13rem', 56: '14rem', 60: '15rem', 64: '16rem',
+      72: '18rem', 80: '20rem', 96: '24rem', '1/2': '50%', '1/3': '33.333333%',
+      '2/3': '66.666667%', '1/4': '25%', '2/4': '50%', '3/4': '75%', '1/5': '20%',
+      '2/5': '40%', '3/5': '60%', '4/5': '80%', '1/6': '16.666667%', '2/6': '33.333333%',
+      '3/6': '50%', '4/6': '66.666667%', '5/6': '83.333333%', '1/12': '8.333333%',
+      '2/12': '16.666667%', '3/12': '25%', '4/12': '33.333333%', '5/12': '41.666667%',
+      '6/12': '50%', '7/12': '58.333333%', '8/12': '66.666667%', '9/12': '75%',
+      '10/12': '83.333333%', '11/12': '91.666667%', auto: 'auto', full: '100%', none: 'none',
+      xs: '20rem', sm: '24rem', md: '28rem', lg: '32rem', xl: '36rem', '2xl': '42rem',
+      '3xl': '48rem', '4xl': '56rem', '5xl': '64rem', '6xl': '72rem',
       '7xl': '80rem',  full: '100%', min: 'min-content', max: 'max-content',
       fit: 'fit-content', prose: '65ch', screen: '100vw', 'screen-sm': '640px',
       'screen-md': '768px', 'screen-lg': '1024px', 'screen-xl': '1280px',
@@ -2041,7 +2061,7 @@ parseMods.sts = {
   placeholder: 'placeholder', focus: 'focus', 'focus-within': 'focus-within',
   'focus-visible': 'focus-visible', tmp: 'tmp', 'not-first': 'nth-child(n + 2)', first: 'first-child',
   last: 'last-child', only: 'only-child', after: ':after', before: ':before', children: '> *',
-  divide: '> * + *',
+  divide: '> * + *', dark: 'dark', 'auto-dark': 'auto-dark',
 };
 
 function buildSelector(spec, semantic) {
@@ -2050,20 +2070,33 @@ function buildSelector(spec, semantic) {
   let { bp, bpid, sts } = parseMods(mods);
   let stsBefore = sts.map(x => x[0]);
   let stsAfter = sts.map(x => x[1]).filter(x => x !== 'tmp');
-  let parentSel = '';
+  let media = [];
+  let parentSel = [];
+  if (bp && bp !== 'print') {
+    media.push(`(min-width: ${bp})`);
+  }
+  if (stsBefore.includes('auto-dark')) {
+    media.push('(prefers-color-scheme: dark)');
+    stsAfter.splice(stsAfter.indexOf('auto-dark'), 1);
+  }
+  if (stsBefore.includes('dark')) {
+    parentSel.push('.dark');
+    stsAfter.splice(stsAfter.indexOf('dark'), 1);
+  }
   if (stsBefore.includes('group-hover')) {
-    parentSel = '.group:hover';
+    parentSel.push('.group:hover');
     stsAfter.splice(stsAfter.indexOf('hover'), 1);
   }
-  return [
-    bp === 'print' ? `@media print {` : bp && `@media (min-width: ${bp}) {`,
-      (parentSel ? `${parentSel} .` : '.') + CSS.escape(
+  let x = [
+    bp === 'print' ? `@media print {` : media.length && `@media ${media.join(' and ')} {`,
+      (parentSel.length ? `${parentSel.join(' ')} .` : '.') + CSS.escape(
         (!semantic && bp ? `${bpid}:` : '') +
         (!semantic && stsBefore.length ? `${stsBefore.join(':')}:` : '') +
         name
       ).replace(/\\\./g, '.') +
       (stsAfter.length ? `:${stsAfter.join(':')}`.replace(':>', ' >') : ''),
   ].filter(Boolean).join('\n');
+  return x;
 }
 
 function buildStyles(xs) {
@@ -3469,6 +3502,8 @@ return je}()
   border-radius: 0.25rem;
   border-width: 1px;
   border-color: #60a5fa;
+  transition-property: all;
+  transition-duration: 0.5s;
   z-index: 10;
   pointer-events: none;
 }
@@ -3499,11 +3534,11 @@ return je}()
   opacity: 0;
 }
 </style>
-<style id="windy--ComponentCanvas">.ComponentCanvas {
-}
-</style>
 <style id="windy--SelectionOverlay.mHide">.SelectionOverlay.mHide {
   opacity: 0;
+}
+</style>
+<style id="windy--ComponentCanvas">.ComponentCanvas {
 }
 </style>
 <style id="windy">.embed {
@@ -3630,6 +3665,14 @@ return je}()
 @media print {
 .print\:rounded-none {
   border-radius: 0;
+}
+}
+.rounded-none {
+  border-radius: 0;
+}
+@media (min-width: 768px) {
+.md\:rounded-lg {
+  border-radius: 0.5rem;
 }
 }
 .font-bold {
@@ -3759,6 +3802,33 @@ return je}()
 .pl-5 {
   padding-left: 1.25rem;
 }
+.flex-1 {
+  flex: 1 1 0%;
+}
+.text-xs {
+  font-size: 0.75rem;
+}
+.text-right {
+  text-align: right;
+}
+.nf-fa-print {
+}
+.ml-1 {
+  margin-left: 0.25rem;
+}
+.text-center {
+  text-align: center;
+}
+.my-20 {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+.text-neutral-800 {
+  color: #262626;
+}
+.gfont-\[Pacifico\] {
+  font-family: "Pacifico";
+}
 .SelectionOverlay {
 }
 .mSmall {
@@ -3773,10 +3843,39 @@ return je}()
   transition-property: all;
   transition-duration: 0.5s;
 }
+@media print {
+.print\:hidden {
+  display: none;
+}
+}
+.fixed {
+  position: fixed;
+}
+.top-0 {
+  top: 0;
+}
+.left-0 {
+  left: 0;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-\[2c806f\] {
+  color: 2c806f;
+}
+.text-\[\#2c806f\] {
+  color: #2c806f;
+}
+.text-\[\#2c806fa0\] {
+  color: #2c806fa0;
+}
+.text-\[\#133c34\] {
+  color: #133c34;
+}
 </style>
 <div class="ComponentCanvas sans print:bg-white print:my-0">
   <div class="ComponentList my-0 lg:my-20">
-    <div class="ComponentBox text-neutral-700 grid lg:grid-cols-[10fr_5fr] py-12 print:shadow-none print:w-auto print:p-0 print:text-sm pl-0 pr-8 print:pr-0 border-[#2c806f90] lg:border print:border-none print:rounded-none">
+    <div class="ComponentBox text-neutral-700 grid lg:grid-cols-[10fr_5fr] py-12 print:shadow-none print:w-auto print:p-0 print:text-sm pl-0 pr-8 print:pr-0 border-[#2c806f90] lg:border print:border-none print:rounded-none rounded-none md:rounded-lg">
       <div>
         <div class="font-bold text-[#66778f] font-3xl border-l-48 pl-4 border-[#2c806f] mb-6 lg:mb-12">Gui Prá</div>
         <div>
@@ -3829,7 +3928,7 @@ return je}()
         </div>
       </div>
 
-      <div class="pl-8">
+      <div class="pl-8 flex flex-col">
         <div class="flex flex-col gap-1 pb-6 border-b-12 border-[#2c806f] hidden lg:block">
           <div class="text-sm text-[#66778f]">Porto Alegre - RS, 91350-090 Brazil</div>
           <div class="text-sm text-[#66778f]">+55 51 99802-9275</div><a class="text-sm text-[#66778f]" href="mailto:gui@guiprav.com">gui@guiprav.com</a>
@@ -3863,7 +3962,11 @@ return je}()
             <li class="">Windy</li>
           </ul>
         </div>
+        <div class="flex-1"></div><a class="text-xs mt-8 text-right print:hidden" href="javascript:print()">Print or Save as PDF<span class="nf nf-fa-print ml-1"></span></a>
       </div>
     </div>
+  </div>
+  <div class="text-center">
+    <div class="my-20 text-[#133c34] print:hidden"><span class="">Made with </span><span class="gfont-[Pacifico]">Webfoundry</span></div>
   </div>
 </div>
