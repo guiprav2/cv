@@ -6,10 +6,14 @@ styles.textContent = `
     to { opacity: 1 }
   }
 
-  .scrolledIntoView {
+  [id^="id"] {
+    opacity: 0;
+  }
+
+  [id^="id"].scrolledIntoView {
     animation-name: fadeIn;
     animation-delay: 1s;
-    animation-duration: 4s;
+    animation-duration: 3s;
     animation-fill-mode: both;
   }
 `;
