@@ -49,15 +49,15 @@ styles.textContent = `
   }
 
   #id0002 {
-    animation-delay: 2s;
+    animation-delay: 0.5s;
   }
 
   #id0003 {
-    animation-delay: 3s;
+    animation-delay: 1s;
   }
 
   #id0004 {
-    animation-delay: 3s;
+    animation-delay: 1s;
   }
 
   #id0019, [id="id0023.5"] {
