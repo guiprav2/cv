@@ -1,5 +1,3 @@
-let numSteps = 50.0;
-
 let styles = document.createElement('style');
 styles.textContent = `
   @keyframes fadeIn {
@@ -22,6 +20,17 @@ styles.textContent = `
     0% {
       opacity:0;
       transform:translate3d(0,-50%,0)
+    }
+    to {
+      opacity:1;
+      transform:translateZ(0)
+    }
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      opacity:0;
+      transform:translate3d(-100%,0,0)
     }
     to {
       opacity:1;
@@ -66,6 +75,14 @@ styles.textContent = `
   }
 `;
 document.head.append(styles);
+
+if (location.pathname.includes('mony')) {
+  styles.textContent += `
+    #id0005, #id0006, #id0007, #id0008 #id0009 {
+      animation-name: fadeInLeft !important;
+    }
+  `;
+}
 
 addEventListener('DOMContentLoaded', () => {
   let observer = new IntersectionObserver(xs => {
