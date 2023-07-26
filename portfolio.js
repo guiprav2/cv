@@ -1,35 +1,19 @@
+let numSteps = 50.0;
+
 let styles = document.createElement('style');
-
 styles.textContent = `
-  @keyframes fadeIn {
-    0% { opacity: 0 }
-    to { opacity: 1 }
-  }
-
-  [id^="id"] {
-    opacity: 0;
-  }
-
-  [id^="id"].scrolledIntoView {
-    animation-name: fadeIn;
-    animation-delay: 1s;
-    animation-duration: 3s;
-    animation-fill-mode: both;
-  }
+  [id] { opacity: 0; transition: 2s ease all }
+  [id].fast { transition: 1s linear all }
+  [id].visible { opacity: 1 }
 `;
-
 document.head.append(styles);
 
-let doc = document.documentElement;
-function frame() {
-  for (let x of document.querySelectorAll('[id^="id"]')) {
-    let rect = x.getBoundingClientRect();
-    if (rect.top + rect.height <= doc.scrollTop - innerHeight / 2) {
-      x.classList.add('scrolledIntoView');
+addEventListener('DOMContentLoaded', () => {
+  let observer = new IntersectionObserver(xs => {
+    for (let x of xs) {
+      x.intersectionRatio > 0.5 && x.target.classList.add('visible');
     }
-  }
+  }, { threshold: 0.5 });
 
-  requestAnimationFrame(frame);
-}
-
-frame();
+  for (let x of document.querySelectorAll('[id]')) { observer.observe(x) }
+}, false);
