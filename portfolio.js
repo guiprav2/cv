@@ -93,3 +93,10 @@ addEventListener('DOMContentLoaded', () => {
 
   for (let x of document.querySelectorAll('[id]')) { observer.observe(x) }
 }, false);
+
+function autoscroll() {
+  document.documentElement.scrollTop += 3;
+  requestAnimationFrame(autoscroll);
+}
+
+location.search.includes('autoscroll=1') && setTimeout(autoscroll, 5000);
