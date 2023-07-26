@@ -94,9 +94,17 @@ addEventListener('DOMContentLoaded', () => {
   for (let x of document.querySelectorAll('[id]')) { observer.observe(x) }
 }, false);
 
-function autoscroll() {
-  document.documentElement.scrollTop += 3;
-  requestAnimationFrame(autoscroll);
-}
+if (location.search.includes('autoscroll=1')) {
+  let lastScrollY;
+  function autoscroll() {
+    let lock = lastScrollY && scrollY <= lastScrollY;
+    lastScrollY = scrollY;
 
-location.search.includes('autoscroll=1') && setTimeout(autoscroll, 5000);
+    requestAnimationFrame(() => {
+      !lock && (document.documentElement.scrollTop += 5);
+      requestAnimationFrame(autoscroll);
+    });
+  }
+
+  setTimeout(autoscroll, 5000);
+}
