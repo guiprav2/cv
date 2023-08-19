@@ -1,3 +1,6 @@
+import Demo from './webfoundry/Demo.js';
+import d from './dominant.js';
+
 let styles = document.createElement('style');
 styles.textContent = `
   @keyframes fadeIn {
@@ -84,7 +87,16 @@ if (location.pathname.includes('mony')) {
   `;
 }
 
+addEventListener('click', ev => {
+  let link = ev.target.closest('a');
+  let href = link && link.getAttribute('href');
+  if (href === '#') { ev.preventDefault() }
+});
+
 addEventListener('DOMContentLoaded', () => {
+  let webfoundry = document.querySelector('.webfoundry');
+  webfoundry.append(d.el(Demo));
+
   let observer = new IntersectionObserver(xs => {
     for (let x of xs) {
       x.intersectionRatio > 0.5 && x.target.classList.add('visible');

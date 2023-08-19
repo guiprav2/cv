@@ -1,0 +1,55 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webfoundry</title>
+<link rel="stylesheet" href="../preflight.css">
+<script
+  src="https://js.sentry-cdn.com/9bd598aa9219cd715ab78d4930933b3e.min.js"
+  crossorigin="anonymous"
+></script>
+<script type="module" src="../windy.js"></script>
+<script type="module" src="../util.js"></script>
+<script type="module" src="autocomp.js"></script>
+
+<style>
+  [hidden] { display: none !important }
+
+  .Placeholder::before {
+    position: relative;
+    top: -1px;
+    content: '+';
+  }
+
+  .Placeholder {
+    display: inline-grid;
+    justify-items: center;
+    align-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin: 0.25rem;
+    border-radius: 0.125rem;
+    font-size: 0.75rem;
+    color: #555;
+    background-color: #ddd;
+    box-shadow: rgba(43, 45, 49, 0.3) 0 0 0 1px, rgba(82, 82, 82, 0.3) 0 0 0 4px, rgba(0, 0, 0, 0.3) 0 0 0 0;
+  }
+
+  dialog:not([open]) { display: none }
+</style>
+
+<body class="h-screen overflow-hidden">
+  <script type="module">
+    import PageEditor from './PageEditor.js';
+
+    window.connect = designer => {
+      let editor = d.el(PageEditor, { designer });
+      document.body.append(editor);
+      return editor.model;
+    };
+
+    addEventListener('click', ev => {
+      let link = ev.target.closest('a');
+      if (link && link.getAttribute('href') === '#') { ev.preventDefault() }
+    }, true);
+  </script>
+</body>
